@@ -1,28 +1,36 @@
-// Определите функции для решение алгебраических уравнений
+open System
 
-let dichotomy f a b = 0.
+// Встроенная функция F#
+let builtinExp2x x = Math.Exp(2.0 * x)
 
-let iterations phi x0 = 0.
+// Наивный способ вычисления ряда Тейлора
+let naiveTaylorExp2x x eps =
+    let rec loop n term sum =
+        if abs term < eps then (sum, n)
+        else
+            let term = term * (2.0 * x) / float n
+            loop (n + 1) term (sum + term)
+    loop 1 (2.0 * x) 1.0
 
-let newthon f f' x0 = 0.
-// используйте функцию 'iterations'
+// Умный способ вычисления ряда Тейлора
+let smartTaylorExp2x x eps =
+    let mutable n = 0
+    let mutable term = 2.0 * x
+    let mutable sum = 1.0
+    while abs term >= eps do
+        n <- n + 1
+        term <- term * 2.0 * x / float n
+        sum <- sum + term
+    sum, n
 
-// Решите 3 уравнения (начиная со своего номера варианта) с использованием 3-х методов
-let f1 = ...
-let f2 = ...
-let f3 = ...
+// Интервал [0.1, 0.6] с шагом 0.1
+let interval = [0.1 .. 0.1 .. 0.6]
+let eps = 1e-10
 
-let f1' = ...
-let f2' = ...
-let f3' = ...
-
-let phi1 = ...
-let phi2 = ...
-let phi3 = ...
-
-let main = 
-    printfn "%10.5f  %10.5f  %10.5f" (dichotomy f1 0. 1.) (iterations phi1 0.) (newthon f1 f1' 1.)
-    printfn "%10.5f  %10.5f  %10.5f" (dichotomy f2 0. 1.) (iterations phi2 0.) (newthon f2 f2' 1.)
-    printfn "%10.5f  %10.5f  %10.5f" (dichotomy f3 0. 1.) (iterations phi3 0.) (newthon f3 f3' 1.)
-
- 
+// Вывод результатов
+printfn "x\tBuiltin\t\tNaive\t\tNaive Terms\tSmart\t\tSmart Terms"
+for x in interval do
+    let builtin = builtinExp2x x
+    let (naive, naiveTerms) = naiveTaylorExp2x x eps
+    let (smart, smartTerms) = smartTaylorExp2x x eps
+    printfn "%.1f\t%.10f\t%.10f\t%d\t\t%.10f\t%d" x builtin naive naiveTerms smart smartTerms
