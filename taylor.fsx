@@ -1,25 +1,36 @@
-// Print a table of a given function f, computed by taylor series
+open System
 
-// function to compute
-let f = sin
+// Встроенная функция F#
+let builtinExp2x x = Math.Exp(2.0 * x)
 
-let a = 0.0
-let b = 1.0
-let n = 10
+// Наивный способ вычисления ряда Тейлора
+let naiveTaylorExp2x x eps =
+    let rec loop n term sum =
+        if abs term < eps then (sum, n)
+        else
+            let term = term * (2.0 * x) / float n
+            loop (n + 1) term (sum + term)
+    loop 1 (2.0 * x) 1.0
 
-// Define a function to compute f using naive taylor series method
-let taylor_naive = f
+// Умный способ вычисления ряда Тейлора
+let smartTaylorExp2x x eps =
+    let mutable n = 0
+    let mutable term = 2.0 * x
+    let mutable sum = 1.0
+    while abs term >= eps do
+        n <- n + 1
+        term <- term * 2.0 * x / float n
+        sum <- sum + term
+    sum, n
 
+// Интервал [0.1, 0.6] с шагом 0.1
+let interval = [0.1 .. 0.1 .. 0.6]
+let eps = 1e-10
 
-// Define a function to do the same in a more efficient way
-let taylor = f
-
-let main =
-   for i=0 to n do
-     let x = a+(float i)/(float n)*(b-a)
-     printfn "%5.2f  %10.6f  %10.6f   %10.6f" x (f x) (taylor_naive x) (taylor x)
-// make sure to improve this table to include the required number of iterations
-// for each of the methods
-
-main
-
+// Вывод результатов
+printfn "x\tBuiltin\t\tNaive\t\tNaive Terms\tSmart\t\tSmart Terms"
+for x in interval do
+    let builtin = builtinExp2x x
+    let (naive, naiveTerms) = naiveTaylorExp2x x eps
+    let (smart, smartTerms) = smartTaylorExp2x x eps
+    printfn "%.1f\t%.10f\t%.10f\t%d\t\t%.10f\t%d" x builtin naive naiveTerms smart smartTerms
