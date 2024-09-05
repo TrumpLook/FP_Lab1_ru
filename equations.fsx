@@ -37,26 +37,26 @@ let eq3 x = acos x - sqrt(1.0 - 0.3 * x ** 3.0)
 let df3 x = -1.0 / sqrt(1.0 - x ** 2.0) + (0.45 * x ** 2.0) / sqrt(1.0 - 0.3 * x ** 3.0)
 let tr3 x = cos(sqrt(1.0 - 0.3 * x ** 3.0))
 
-let rootBis1 = bis eq1 1.0 2.0 1e-5
-let rootNew1 = newton eq1 df1 1.5 1e-5 1000
-let rootFix1 = fix tr1 1.5 1e-5 1000
+let bis1 = bis eq1 1.0 2.0 1e-5
+let new1 = newton eq1 df1 1.5 1e-5 1000
+let fix1 = fix tr1 1.5 1e-5 1000
 
-let rootBis2 = bis eq2 0.0 0.8 1e-5
-let rootNew2 = newton eq2 df2 0.4 1e-5 1000
-let rootFix2 = fix tr2 0.4 1e-5 1000
+let bis2 = bis eq2 0.0 0.8 1e-5
+let new2 = newton eq2 df2 0.4 1e-5 1000
+let fix2 = fix tr2 0.4 1e-5 1000
 
-let rootBis3 = bis eq3 0.0 1.0 1e-5
-let rootNew3 = newton eq3 df3 0.5 1e-5 1000
-let rootFix3 = fix tr3 0.5 1e-5 1000
+let bis3 = bis eq3 0.0 1.0 1e-5
+let new3 = newton eq3 df3 0.5 1e-5 1000
+let fix3 = fix tr3 0.5 1e-5 1000
 
 printfn "%-12s | %-50s | %-10s" "Метод" "Уравнение" "Корень"
 printfn "%-12s | %-50s | %-10s" "------------" "--------------------------------------------------" "----------"
-printfn "%-12s | %-50s | %-10f" "Дихотомия" "0.1x^2 - x ln x = 0" rootBis1
-printfn "%-12s | %-50s | %-10f" "Ньютон" "0.1x^2 - x ln x = 0" rootNew1
-printfn "%-12s | %-50s | %-10f" "Итерации" "0.1x^2 - x ln x = 0" rootFix1
-printfn "%-12s | %-50s | %-10f" "Дихотомия" "tan x - (1/3) tan^3 x + (1/5) tan^5 x - 1/3 = 0" rootBis2
-printfn "%-12s | %-50s | %-10f" "Ньютон" "tan x - (1/3) tan^3 x + (1/5) tan^5 x - 1/3 = 0" rootNew2
-printfn "%-12s | %-50s | %-10f" "Итерации" "tan x - (1/3) tan^3 x + (1/5) tan^5 x - 1/3 = 0" rootFix2
-printfn "%-12s | %-50s | %-10f" "Дихотомия" "arccos x - sqrt(1 - 0.3x^3) = 0" rootBis3
-printfn "%-12s | %-50s | %-10f" "Ньютон" "arccos x - sqrt(1 - 0.3x^3) = 0" rootNew3
+printfn "%-12s | %-50s | %-10f" "Дихотомия" "0.1x^2 - x ln x = 0" bis1
+printfn "%-12s | %-50s | %-10f" "Ньютон" "0.1x^2 - x ln x = 0" new1
+printfn "%-12s | %-50s | %-10f" "Итерации" "0.1x^2 - x ln x = 0" fix1
+printfn "%-12s | %-50s | %-10f" "Дихотомия" "tan x - (1/3) tan^3 x + (1/5) tan^5 x - 1/3 = 0" bis2
+printfn "%-12s | %-50s | %-10f" "Ньютон" "tan x - (1/3) tan^3 x + (1/5) tan^5 x - 1/3 = 0" new2
+printfn "%-12s | %-50s | %-10f" "Итерации" "tan x - (1/3) tan^3 x + (1/5) tan^5 x - 1/3 = 0" fix2
+printfn "%-12s | %-50s | %-10f" "Дихотомия" "arccos x - sqrt(1 - 0.3x^3) = 0" bis3
+printfn "%-12s | %-50s | %-10f" "Ньютон" "arccos x - sqrt(1 - 0.3x^3) = 0" new3
 
